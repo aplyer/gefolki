@@ -7,7 +7,7 @@ class BurtOF:
     def __init__(self, flow, levels = 4):
         self.flow = flow
         self.levels = 4
-    def __call__(self, I0, I1):
+    def __call__(self, I0, I1, **kparams):
         Py0 = [I0]
         Py1 = [I1]
         for i in range(self.levels, 0, -1):
@@ -17,7 +17,9 @@ class BurtOF:
         v = np.zeros(Py0[-1].shape)
         for i in range(self.levels, 0, -1):
             print('scale : %d'%i)
-            u,v = self.flow(Py0[i], Py1[i])
+            kparams['uinit'] = u
+            kparams['vinit'] = v
+            u,v = self.flow(Py0[i], Py1[i], **kparams)
             if i > 0:
                 col, row = Py0[i-1].shape[1], Py0[i-1].shape[0]
                 u = 2 * self.pyrDown(u, (col, row))

@@ -46,7 +46,10 @@ GeFolki = BurtOF(GEFolkiIter)
 
 A = np.mean(radar, 2).astype(np.float32)
 B = Ilidari.astype(np.float32)
-u, v = GeFolki(A,B)
-
+u, v = GeFolki(A,B, iteration = 5, radius = [8, 4], rank = 4)
+N = np.sqrt(u**2+v**2)
+pl.figure()
+pl.imshow(N)
+pl.title('Norme du recalage')
 
 
