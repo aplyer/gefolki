@@ -46,7 +46,7 @@ GeFolki = BurtOF(GEFolkiIter)
 
 A = np.mean(radar, 2).astype(np.float32)
 B = Ilidari.astype(np.float32)
-u, v = GeFolki(A,B, iteration = 5, radius = [8, 4], rank = 4)
+u, v = GeFolki(np.abs(HH1), np.abs(HH2), iteration = 5, radius = [16,32], rank = 4, levels = 3)
 N = np.sqrt(u**2+v**2)
 pl.figure()
 pl.imshow(N)
