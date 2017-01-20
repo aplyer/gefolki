@@ -1,0 +1,41 @@
+import numpy as np
+
+from scipy.io import loadmat
+from scipy.ndimage import imread
+
+import pylab as pl
+
+#pl.interactive()
+
+radar    = imread('../datasets/radar_bandep.png')
+Ioptique = imread('../datasets/optiquehr_georef.png')
+Ilidari  = imread('../datasets/lidar_georef.png')
+
+pl.figure()
+pl.imshow(radar)
+pl.title('Radar in pauli color')
+
+pl.figure()
+pl.imshow(Ioptique)
+pl.title('RGB visible aerial image')
+
+pl.figure()
+pl.imshow(Ilidari)
+pl.title('Lidar in colormap jet')
+
+HH1 = loadmat('../datasets/radar_bandel_hh1.mat')['Radar_bandeL_HH1']
+HH2 = loadmat('../datasets/radar_bandel_hh2.mat')['Radar_bandeL_HH2']
+
+
+pl.figure()
+pl.imshow(np.abs(np.log(np.abs(HH1))), 'gray', vmin = 0, vmax = 2.4)
+
+pl.figure()
+pl.imshow(np.abs(np.log(np.abs(HH1))), 'gray', vmin = 0, vmax = 2.4)
+pl.title('HH of first radar')
+
+
+pl.figure()
+pl.imshow(np.abs(np.log(np.abs(HH2))), 'gray', vmin = 0, vmax = 2.4)
+pl.title('HH of second radar')
+

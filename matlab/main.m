@@ -36,11 +36,11 @@
 %% -------- Open all data     ---------------------------------------------
 tic;
 
-Iradar=imread('datasets/radar_bandep.png','png');            	% RGB image in Pauli basis
-Ioptique=imread('datasets/optiquehr_georef.png','png');      	% aerial photography (RGB)
-Ilidar=imread('datasets/lidar_georef.png','png');            	% LIDAR 
-load ('datasets/radar_bandel_hh1')                           	% L-band Radar SLC image Pass 1
-load ('datasets/radar_bandel_hh2')                           	% L-band Radar SLC image Pass 2 
+Iradar=imread('../datasets/radar_bandep.png','png');            	% RGB image in Pauli basis
+Ioptique=imread('../datasets/optiquehr_georef.png','png');      	% aerial photography (RGB)
+Ilidar=imread('../datasets/lidar_georef.png','png');            	% LIDAR 
+load ('../datasets/radar_bandel_hh1')                           	% L-band Radar SLC image Pass 1
+load ('../datasets/radar_bandel_hh2')                           	% L-band Radar SLC image Pass 2 
 
 % Choose on channel for multi channel images: 
 Iradar=Iradar(:,:,1); % RADAR P-Band : Get the first channel (HH-VV)
