@@ -8,7 +8,7 @@ import pylab as pl
 from folki import GEFolkiIter
 from pyramid import BurtOF
 
-#pl.interactive()
+pl.interactive(True)
 
 radar    = imread('../datasets/radar_bandep.png')
 Ioptique = imread('../datasets/optiquehr_georef.png')
@@ -43,6 +43,10 @@ pl.imshow(np.abs(np.log(np.abs(HH2))), 'gray', vmin = 0, vmax = 2.4)
 pl.title('HH of second radar')
 
 GeFolki = BurtOF(GEFolkiIter)
+
+A = np.mean(radar, 2).astype(np.float32)
+B = Ilidari.astype(np.float32)
+u, v = GeFolki(A,B)
 
 
 

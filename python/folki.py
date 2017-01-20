@@ -3,21 +3,7 @@ import numpy as np
 from rank import rank_inf as rank_filter_inf
 from rank import rank_sup as rank_filter_sup
 
-# define if use scipy or opencv primitives
-USE_OPENCV = False
-
-if USE_OPENCV:
-    import cv2
-    interp2 = lambda  I,x,y : cv2.remap(I,x.astype(np.float32),y.astype(np.float32),cv2.INTER_LINEAR)
-    conv2   = lambda  I,w   : cv2.filter2D(I,-1,w)
-else:
-    from scipy import ndimage
-    interp2 = lambda I, x, y : ndimage.map_coordinates( I, [ y, x], order = 1, mode = 'nearest')
-    conv2   = lambda I, w    : ndimage.convolve(I, w, mode = 'constant')
-    
-gradients = lambda I    : (conv2(I,np.array([[-1,0,1]])), conv2(I, np.array([[-1,0,1]]).T))
-conv2Sep  = lambda I, w : conv2(conv2(I,w),w.T)
-
+from primitive import *
 
 
 
@@ -104,7 +90,7 @@ def GEFolkiIter(I0, I1, iteration = 5, radius = [8, 4], rank = 4, uinit = None, 
     cols, rows = I0.shape[1], I0.shape[0]
     x, y = np.meshgrid(range(cols), range(rows))
     for rad in radius:
-        W = lambda x : conv2Sep(x, np.ones([2*radius+1,1]) / 2*radius + 1)
+        W = lambda x : conv2Sep(x, np.ones([2*rad+1,1]) / 2*rad + 1)
         Ixx = W(Ix*Ix)
         Iyy = W(Iy*Iy)
         Ixy = W(Ix*Iy)
@@ -114,7 +100,7 @@ def GEFolkiIter(I0, I1, iteration = 5, radius = [8, 4], rank = 4, uinit = None, 
             crit1 = conv2Sep(np.abs(I0-I1w), np.ones([2*rank+1,1]))
             crit2 = conv2Sep(np.abs(1-I0-I1w), np.ones([2*rank+1,1]))
             R1w = interp2(R1s,x+u,y+v)
-            R1w_i = interp2(R1i,x+u,y+v)
+            R1w_1 = interp2(R1i,x+u,y+v)
             R1w[crit1 > crit2] = R1w_1[crit1 > crit2]
             it = R0 - R1w + u*Ix + v*Iy
             Ixt = W(Ix * it)
