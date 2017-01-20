@@ -5,6 +5,9 @@ from scipy.ndimage import imread
 
 import pylab as pl
 
+from folki import GEFolkiIter
+from pyramid import BurtOF
+
 #pl.interactive()
 
 radar    = imread('../datasets/radar_bandep.png')
@@ -38,4 +41,8 @@ pl.title('HH of first radar')
 pl.figure()
 pl.imshow(np.abs(np.log(np.abs(HH2))), 'gray', vmin = 0, vmax = 2.4)
 pl.title('HH of second radar')
+
+GeFolki = BurtOF(GEFolkiIter)
+
+
 
