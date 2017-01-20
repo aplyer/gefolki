@@ -8,6 +8,8 @@ class BurtOF:
         self.flow = flow
         self.levels = 4
     def __call__(self, I0, I1, **kparams):
+        if kparams.has_key('levels'):
+            self.levels = kparams.pop('levels')
         Py0 = [I0]
         Py1 = [I1]
         for i in range(self.levels, 0, -1):
@@ -15,7 +17,7 @@ class BurtOF:
             Py1.append(self.pyrUp(Py1[-1]))
         u = np.zeros(Py0[-1].shape)
         v = np.zeros(Py0[-1].shape)
-        for i in range(self.levels, 0, -1):
+        for i in range(self.levels, -1, -1):
             print('scale : %d'%i)
             kparams['uinit'] = u
             kparams['vinit'] = v
