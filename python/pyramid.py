@@ -1,5 +1,7 @@
 import numpy as np
 
+from primitive import *
+
 
 class BurtOF:
     def __init__(flow, levels = 4):
@@ -16,11 +18,14 @@ class BurtOF:
         for i in range(self.levels, 0, -1):
             u,v = self.flow(Py0[i], Py1[i])
             if i > 0:
-                u = 2 * self.pyrDown(u)
-                v = 2 * self.pyrDown(v)
+                col, row = Py0[i-1].shape[1], Py0[i-1].shape[0]
+                u = 2 * self.pyrDown(u, (col, row))
+                v = 2 * self.pyrDown(v, (col, row))
         return u, v
     def pyrUp(self, I):
-        return None
+        burt1D = n.array([[1./4.-a/2.,1./4.,a,1./4.,1./4.-a/2.]]).reshape(-1,1)
+        M = convSep(I,burt1D)
+        return M[::2,::2]
     def pyrDown(self, I):
         return None
 
