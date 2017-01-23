@@ -63,10 +63,10 @@ para = struct('radius' , 32:-4:8, ...
         'rank', 4);
 
 % Compute the flow    
-V=GeFolki(Iradar,Ilidar,para);
+W_lidar_radar=GeFolki(Iradar,Ilidar,para);
 
 % Resample the image 
-Ilidar_resampled=Gefolki_interpflow(Iradar,Ilidar,V);
+Ilidar_resampled=Gefolki_interpflow(Iradar,Ilidar,W_lidar_radar);
 
 
 % Show result as a color composition
@@ -87,8 +87,8 @@ para = struct('radius' , 32:-4:8, ...
         'iter' , 2, ...
         'contrast_adapt', false, ...
         'rank', 4);
-W=GeFolki(Iradar,Ioptique,para);
-Ioptique_resampled=Gefolki_interpflow(Iradar,Ioptique,W);
+W_optique_radar=GeFolki(Iradar,Ioptique,para);
+Ioptique_resampled=Gefolki_interpflow(Iradar,Ioptique,W_optique_radar);
 % --------------------------- result
 figure;
 imshowpair(Iradar,Ioptique)
@@ -110,7 +110,7 @@ para = struct('radius' , 32, ...
 HH1=Radar_bandeL_HH1;
 HH2=Radar_bandeL_HH2;
 
-W = GeFolki(abs(HH1), abs(HH2),para); 
+W_radar_radar = GeFolki(abs(HH1), abs(HH2),para); 
 % !! Be careful. Do not forget to take the absolute Value
 
 
@@ -119,7 +119,7 @@ W = GeFolki(abs(HH1), abs(HH2),para);
 % the spectrum before.
 HH2fft=circshift((fft2(HH2)),[-230 -160]);  % Center the spectrum
 HH2p=ifft2(fftshift(HH2fft));               % Consider the maximal frequency at the corners
-HH2p = Gefolki_interpflow(HH1,HH2p,W);      % Apply the resampling
+HH2p = Gefolki_interpflow(HH1,HH2p,W_radar_radar);      % Apply the resampling
 HH2pfft=fft2(HH2p);                         % Go back to initial spectrum 
 HH2pfft=fftshift(circshift(HH2pfft,[230 160])); 
 HH2p=ifft2(HH2pfft);
@@ -134,3 +134,6 @@ colormap(hsv)
 title('Interferometric fringes after fine coregistration','FontSize',14)
 
 toc;
+
+
+save('../datasets/matlab_result.mat', 'W_lidar_radar', 'W_optique_radar', 'W_radar_radar')
