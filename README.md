@@ -22,3 +22,23 @@ After decompression, this directory contains:
 - the different matlab source codes. The demonstration are proposed in the main.m file.
 
 For information, the execution time of the whole script main.m with 3 examples of co-registration is 90 seconds on a Intel® Xeon(R) CPU E5-1603 0 @ 2.80GHz × 4
+
+
+** citations for {ge ,e, _}Folki algorithms :
+
+Brigot, G., Colin-Koeniguer, E., Plyer, A., & Janez, F. (2016). Adaptation and Evaluation of an Optical Flow Method Applied to Coregistration of Forest Remote Sensing Images. IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing, 9(7), 2923-2939.
+
+Plyer, A., Colin-Koeniguer, E., & Weissgerber, F. (2015). A new coregistration algorithm for recent applications on urban SAR images. IEEE Geoscience and Remote Sensing Letters, 12(11), 2198-2202.
+
+Plyer, A., Le Besnerais, G., & Champagnat, F. (2016). Massively parallel Lucas Kanade optical flow for real-time video processing applications. Journal of Real-Time Image Processing, 11(4), 713-730.
+
+Champagnat, F., Plyer, A., Le Besnerais, G., Leclaire, B., & Le Sant, Y. (2009, August). How to calculate dense piv vector fields at video rate. In Proceedings of 8th International Symposium on Particle Image Velocimetry-PIV09 (Vol. 11, pp. 15-20).
+
+
+
+
+
+
+
+
+
