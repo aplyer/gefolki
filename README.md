@@ -10,7 +10,7 @@ If you are using the result of GeFolki in your project, we kindly ask you to cit
 
 Aurélien Plyer, Elise Colin-Koeniguer, Flora Weissgerber, "A New Coregistration Algorithm for Recent Applications on Urban SAR Images", Geoscience and Remote Sensing Letters, IEEE , vol.12, no.11, pp. 2198 – 2202, nov 2015
 
-- for other cases (optics/SAR, optics/hyperspectral, LIDAR/SAR, etc.)
+- for other geosensing cases (optics/SAR, optics/hyperspectral, LIDAR/SAR, etc.)
 
 Guillaume Brigot, Elise Colin-Koeniguer, Aurélien Plyer, Fabrice Janez, "Adaptation and Evaluation of an Optical Flow Method Applied to Coregistration of Forest Remote Sensing Images", IEEE Journal of Selected Topics in Applied Earth Observations ans Remote Sensing, Volume 9, Issue 7, July 2016
 
