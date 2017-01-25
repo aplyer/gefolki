@@ -24,7 +24,7 @@ After decompression, this directory contains:
 For information, the execution time of the whole script main.m with 3 examples of co-registration is 90 seconds on a Intel® Xeon(R) CPU E5-1603 0 @ 2.80GHz × 4
 
 
-** citations for {ge ,e, _}Folki algorithms :
+## Citations for {ge ,e, _}Folki algorithms :
 
 Brigot, G., Colin-Koeniguer, E., Plyer, A., & Janez, F. (2016). Adaptation and Evaluation of an Optical Flow Method Applied to Coregistration of Forest Remote Sensing Images. IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing, 9(7), 2923-2939.
 
