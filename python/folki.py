@@ -55,7 +55,7 @@ def EFolkiIter(I0, I1, iteration = 5, radius = [8, 4], rank = 4, uinit = None, v
     cols, rows = I0.shape[1], I0.shape[0]
     x, y = np.meshgrid(range(cols), range(rows))
     for rad in radius:
-        W = lambda x : conv2Sep(x, np.ones([2*radius+1,1]) / 2*radius + 1)
+        W = lambda x : conv2Sep(x, np.ones([2*rad+1,1]) / 2*rad + 1)
         Ixx = W(Ix*Ix)
         Iyy = W(Iy*Iy)
         Ixy = W(Ix*Iy)
