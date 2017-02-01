@@ -24,8 +24,8 @@ class BurtOF:
             u,v = self.flow(Py0[i], Py1[i], **kparams)
             if i > 0:
                 col, row = Py0[i-1].shape[1], Py0[i-1].shape[0]
-                u = 2 * self.pyrDown(u, (col, row))
-                v = 2 * self.pyrDown(v, (col, row))
+                u = 2 * self.pyrDown(u, (row, col))
+                v = 2 * self.pyrDown(v, (row, col))
         return u, v
     def pyrUp(self, I):
         a = 0.4
@@ -39,7 +39,7 @@ class BurtOF:
         res[:row, :col] = I
         return res
 
-        
+
 
 
 
