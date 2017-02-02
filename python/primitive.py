@@ -1,6 +1,6 @@
 import numpy as np
 # define if use scipy or opencv primitives
-USE_OPENCV = False
+USE_OPENCV = True
 
 if USE_OPENCV:
     import cv2
