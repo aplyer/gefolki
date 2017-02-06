@@ -36,7 +36,9 @@ class BurtOF:
         res = np.zeros(shape)
         I = np.repeat(np.repeat(I,2,0),2,1)
         col, row = I.shape[1], I.shape[0]
-        res[:row, :col] = I
+        col = min(shape[1], col)
+        row = min(shape[0], row)
+        res[:row, :col] = I[:row,:col]
         return res
 
 
