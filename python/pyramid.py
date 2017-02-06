@@ -8,7 +8,7 @@ class BurtOF:
         self.flow = flow
         self.levels = 4
     def __call__(self, I0, I1, **kparams):
-        if kparams.has_key('levels'):
+        if 'levels'in kparams:
             self.levels = kparams.pop('levels')
         Py0 = [I0]
         Py1 = [I1]
