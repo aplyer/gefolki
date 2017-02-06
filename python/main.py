@@ -5,7 +5,9 @@ from scipy.ndimage import imread
 
 import pylab as pl
 
-from algorithm import GEFolki
+from algorithm import GEFolki, EFolki, Folki # three optical flow algorithms
+from tools import wrapData # to apply registration
+
 
 def demo():
     radar    = imread('../datasets/radar_bandep.png')
@@ -42,11 +44,14 @@ def demo():
 
     A = np.mean(radar, 2).astype(np.float32)
     B = Ilidari.astype(np.float32)
+
     u, v = GEFolki(np.abs(HH1), np.abs(HH2), iteration = 5, radius = [16,32], rank = 4, levels = 3)
     N = np.sqrt(u**2+v**2)
     pl.figure()
     pl.imshow(N)
-    pl.title('Norme du recalage')
+    pl.title('Norme of HH2 to HH1 registration')
+
+
 
 
 if __name__ == '__main__':
