@@ -1,5 +1,5 @@
 import numpy as np
-from primitives import interp2
+from primitive import interp2
 
 def wrapData(I, u, v):
     '''
