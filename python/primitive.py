@@ -1,7 +1,7 @@
 import numpy as np
 # define if use scipy or opencv primitives
 USE_OPENCV = False
-USE_LINEAR = False # linear or cubic interpolate
+USE_LINEAR = True # linear or cubic interpolate
 
 if USE_OPENCV:
     import cv2
