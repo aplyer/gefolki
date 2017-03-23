@@ -11,45 +11,47 @@ from tools import wrapData # to apply registration
 
 def demo():
     radar    = imread('../datasets/radar_bandep.png')
-    Ioptique = imread('../datasets/optiquehr_georef.png')
     Ilidari  = imread('../datasets/lidar_georef.png')
 
     pl.figure()
     pl.imshow(radar)
     pl.title('Radar in pauli color')
 
-    pl.figure()
-    pl.imshow(Ioptique)
-    pl.title('RGB visible aerial image')
 
     pl.figure()
     pl.imshow(Ilidari)
     pl.title('Lidar in colormap jet')
 
-    HH1 = loadmat('../datasets/radar_bandel_hh1.mat')['Radar_bandeL_HH1']
-    HH2 = loadmat('../datasets/radar_bandel_hh2.mat')['Radar_bandeL_HH2']
 
 
-    pl.figure()
-    pl.imshow(np.abs(np.log(np.abs(HH1))), 'gray', vmin = 0, vmax = 2.4)
-
-    pl.figure()
-    pl.imshow(np.abs(np.log(np.abs(HH1))), 'gray', vmin = 0, vmax = 2.4)
-    pl.title('HH of first radar')
-
-
-    pl.figure()
-    pl.imshow(np.abs(np.log(np.abs(HH2))), 'gray', vmin = 0, vmax = 2.4)
-    pl.title('HH of second radar')
-
-    A = np.mean(radar, 2).astype(np.float32)
-    B = Ilidari.astype(np.float32)
-
-    u, v = GEFolki(np.abs(HH1), np.abs(HH2), iteration = 5, radius = [16,32], rank = 4, levels = 3)
+    Iradar = radar[:,:,0] # Selection of first band in Colored Pauli Basis, Red=hh-vv
+    Iradar = Iradar.astype(np.float32)/255
+    Ilidar = Ilidari.astype(np.float32)/255
+    
+  
+    
+    u, v = EFolki(Iradar, Ilidar, iteration = 2, radius = [32,24,16,8], rank = 4, levels = 5)
     N = np.sqrt(u**2+v**2)
     pl.figure()
     pl.imshow(N)
-    pl.title('Norme of HH2 to HH1 registration')
+    pl.title('Norm of LIDAR to RADAR registration')
+    pl.colorbar() 
+    
+  
+    Ilidar_resampled=wrapData(Ilidar,u,v)
+    
+    
+    C = np.dstack((Ilidar,Iradar,Ilidar))
+    pl.figure()
+    pl.imshow(C)
+    pl.title('Imfuse of RADAR and LIDAR')
+
+     
+    D = np.dstack((Ilidar_resampled,Iradar,Ilidar_resampled))
+    pl.figure()
+    pl.imshow(D)
+    pl.title('Imfuse of RADAR and LIDAR after coregistration')
+
 
 
 
