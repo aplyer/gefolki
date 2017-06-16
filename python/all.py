@@ -1,0 +1,57 @@
+import numpy as np
+
+from primitive import *
+import matplotlib.pyplot as plt
+import cv2
+
+im = cv2.imread('/home/janez/Bureau/18664347_1322287911191951_5756537728323747975_n.jpg')
+I0 = im[:,:,1]
+
+Py0 = [I0]
+Py0.append(pyrUp(Py0[-1]))
+Py0.append(pyrUp(Py0[-1]))
+
+
+class BurtOF:
+    def __init__(self, flow, levels = 4):
+        self.flow = flow
+        self.levels = 4
+    def __call__(self, I0, I1, **kparams):
+        if 'levels'in kparams:
+            self.levels = kparams.pop('levels')
+        Py0 = [I0]
+        Py1 = [I1]
+        for i in range(self.levels, 0, -1):
+            Py0.append(self.pyrUp(Py0[-1]))
+            Py1.append(self.pyrUp(Py1[-1]))
+        u = np.zeros(Py0[-1].shape)
+        v = np.zeros(Py0[-1].shape)
+        for i in range(self.levels, -1, -1):
+            print('scale : %d'%i)
+            kparams['uinit'] = u
+            kparams['vinit'] = v
+            u,v = self.flow(Py0[i], Py1[i], **kparams)
+            if i > 0:
+                col, row = Py0[i-1].shape[1], Py0[i-1].shape[0]
+                u = 2 * self.pyrDown(u, (row, col))
+                v = 2 * self.pyrDown(v, (row, col))
+        return u, v
+
+
+
+
+
+    def pyrUp(I):
+        a = 0.4
+        burt1D = np.array([[1./4.-a/2.,1./4.,a,1./4.,1./4.-a/2.]])
+        M = conv2Sep(I,burt1D)
+        return M[::2,::2]
+
+    def pyrDown(I, shape):
+        res = np.zeros(shape)
+        I = np.repeat(np.repeat(I,2,0),2,1)
+        col, row = I.shape[1], I.shape[0]
+        col = min(shape[1], col)
+        row = min(shape[0], row)
+        res[:row, :col] = I[:row,:col]
+        return res

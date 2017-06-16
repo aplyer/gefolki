@@ -1,3 +1,6 @@
+# Version corrigee par F. Janez pour qu elle corresponde a la version matlab
+# le 14 juin 2017
+from scipy import signal
 import numpy as np
 # define if use scipy or opencv primitives
 USE_OPENCV = False
@@ -16,10 +19,21 @@ else:
     if USE_LINEAR:
         interp2 = lambda I, x, y : ndimage.map_coordinates( I, [ y, x], order = 1, mode = 'nearest')
     else:
-        interp2 = lambda I, x, y : ndimage.map_coordinates( I, [ y, x], order = 3, mode = 'nearest')
-
-    conv2   = lambda I, w    : ndimage.convolve(I, w, mode = 'mirror')
+        # V2 pour etre equivalent a la version matlab
+        #interp2 = lambda I, x, y : ndimage.map_coordinates( I, [ y, x], order = 3, mode = 'nearest')
+	   interp2 = lambda I, x, y : ndimage.map_coordinates( I, [ y, x], order = 3, mode = 'linear')
+ 
+    # a priori plus utilise
+    conv2   = lambda I, w    : ndimage.convolve(I, w, mode = 'nearest')
+    
+    # V2 : pour etre equivalent avec procedure matlab
+    conv2bis   = lambda I, w    : signal.convolve2d(I, w, mode = 'valid')
+    
+    # a priori plus utilise
     gradients = lambda I    : (conv2(I,np.array([[1,0,-1]])), conv2(I, np.array([[1,0,-1]]).T))
-conv2Sep  = lambda I, w : conv2(conv2(I,w),w.T)
 
+# V2 : petit changement pour se conformer a matlan mais dont l impact n a pas ete mesure
+# conv2Sep  = lambda I, w : conv2(conv2(I,w),w.T)
+# a priori plus utilise
+conv2Sep  = lambda I, w : conv2(conv2(I,w.T),w)
 
