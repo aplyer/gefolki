@@ -1,75 +1,52 @@
+# Les modification faites par F. Janez reperables avec la mention V2
+# le 14 juin 2017
+
 import numpy as np
 
 
-def rank_inf(I,rad):
+# V2 : nouvelle procedure proposee par F. Janez (a priori plus simple)
+def rank_filter_sup(I,rad):
     nl, nc = I.shape
     R = np.zeros([nl,nc])
-    for i in range(1,rad+1):
-        for j in range(rad+1):
-            tmp = np.concatenate([I[i:,j:], np.zeros([nl-i,j])], axis=1)
-            tmp = np.concatenate([tmp,np.zeros([i,nc])],axis = 0)
-            idx = (tmp < I)
-            R[idx] = R[idx]+1
-            if j is 0:
-                K = I[:-i,:]
+    for i in range(-rad,rad+1): #indice de ligne
+        for j in range(-rad,rad+1): #indice de colonne
+            if i!=0:
+                if i<0: # on decalle vers le haut de i lignes
+                     tmp = np.concatenate([I[-i:,:], np.zeros([-i,nc])], axis=0)
+                else: # on decalle vers le bas de i lignes
+                     tmp = np.concatenate([np.zeros([i,nc]), I[:-i,:]], axis=0)
             else:
-                K = I[:-i, :-j]
-            tmp = np.concatenate([np.zeros([nl-i,j]),K],axis = 1)
-            tmp = np.concatenate([np.zeros([i,nc]), tmp],axis = 0)
-            idx = (tmp < I)
-            R[idx] = R[idx]+1
-    for i in range(rad+1):
-        for j in range(1,rad+1):
-            if i is 0:
-                K = I[:,j:]
-            else:
-                K = I[:-i,j:]
-            tmp = np.concatenate([K, np.zeros([nl-i,j])],axis = 1)
-            tmp = np.concatenate([np.zeros([i,nc]), tmp],axis = 0)
-            idx = (tmp < I)
-            R[idx] = R[idx]+1
-            tmp = np.concatenate([np.zeros([nl-i,j]),I[i:,:-j]], axis=1)
-            tmp = np.concatenate([np.zeros([i,nc]),tmp],axis = 0)
-            idx = (tmp < I)
-            R[idx] = R[idx]+1
-    return R
-
-def rank_sup(I,rad):
-    nl, nc = I.shape
-    R = np.zeros([nl,nc])
-    for i in range(1,rad+1):
-        for j in range(rad+1):
-            tmp = np.concatenate([I[i:,j:], np.zeros([nl-i,j])], axis=1)
-            tmp = np.concatenate([tmp,np.zeros([i,nc])],axis = 0)
-            idx = (tmp > I)
-            R[idx] = R[idx]+1
-            if j is 0:
-                K = I[:-i,:]
-            else:
-                K = I[:-i, :-j]
-            tmp = np.concatenate([np.zeros([nl-i,j]),K],axis = 1)
-            tmp = np.concatenate([np.zeros([i,nc]), tmp],axis = 0)
-            idx = (tmp > I)
-            R[idx] = R[idx]+1
-    for i in range(rad+1):
-        for j in range(1,rad+1):
-            if i is 0:
-                K = I[:,j:]
-            else:
-                K = I[:-i,j:]
-            tmp = np.concatenate([K, np.zeros([nl-i,j])],axis = 1)
-            tmp = np.concatenate([np.zeros([i,nc]), tmp],axis = 0)
-            idx = (tmp > I)
-            R[idx] = R[idx]+1
-            tmp = np.concatenate([np.zeros([nl-i,j]),I[i:,:-j]], axis=1)
-            tmp = np.concatenate([np.zeros([i,nc]),tmp],axis = 0)
+                tmp = I
+            if j!=0:
+                if j<0: # on decalle vers la gauche de j colonnes
+                    tmp = np.concatenate([tmp[:,-j:], np.zeros([nl,-j])], axis=1)
+                else: # on decale vers la droite de j colonnes
+                    tmp = np.concatenate([np.zeros([nl,j]), tmp[:,:-j]], axis=1)
             idx = (tmp > I)
             R[idx] = R[idx]+1
     return R
 
 
-
-
+def rank_filter_inf(I,rad):
+    nl, nc = I.shape
+    R = np.zeros([nl,nc])
+    for i in range(-rad,rad+1): #indice de ligne
+        for j in range(-rad,rad+1): #indice de colonne
+            if i!=0:
+                if i<0: # on decalle vers le haut de i lignes
+                     tmp = np.concatenate([I[-i:,:], np.zeros([-i,nc])], axis=0)
+                else:
+                     tmp = np.concatenate([np.zeros([i,nc]), I[:-i,:]], axis=0)
+            else:
+                tmp = I
+            if j!=0:
+                if j<0: # on decalle vers la gauche de j colonnes
+                    tmp = np.concatenate([tmp[:,-j:], np.zeros([nl,-j])], axis=1)
+                else: # on decale vers la droite de j colonnes
+                    tmp = np.concatenate([np.zeros([nl,j]), tmp[:,:-j]], axis=1)
+            idx = (tmp < I)
+            R[idx] = R[idx]+1
+    return R
 
 
 
