@@ -1,7 +1,7 @@
 import numpy as np
 
-from rank import rank_inf as rank_filter_inf
-from rank import rank_sup as rank_filter_sup
+from rank import rank_filter_inf
+from rank import rank_filter_sup
 
 from primitive import *
 

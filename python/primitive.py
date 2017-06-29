@@ -12,6 +12,6 @@ else:
     interp2 = lambda I, x, y : ndimage.map_coordinates( I, [ y, x], order = 3, mode = 'linear')
 conv2 = lambda I, w    : signal.convolve2d(I, w, mode = 'same', boundary='fill', fillvalue=0.0)
 # a priori plus utilise
-gradients = lambda I    : np.gradients(I)
+gradient = lambda I    : np.gradient(I)
 conv2Sep  = lambda I, w : conv2(conv2(I,w.T),w)
 
