@@ -43,7 +43,6 @@ def EFolkiIter(I0, I1, iteration = 5, radius = [8, 4], rank = 4, uinit = None, v
     if rank > 0:
         I0 = rank_filter_sup(I0, rank)
         I1 = rank_filter_sup(I1, rank)
-
     if uinit is None:
         u = np.zeros(I0.shape)
     else:
@@ -52,22 +51,16 @@ def EFolkiIter(I0, I1, iteration = 5, radius = [8, 4], rank = 4, uinit = None, v
         v = np.zeros(I1.shape)
     else:
         v = vinit
-
     Iy, Ix = gradient(I0)
-
     cols, rows = I0.shape[1], I0.shape[0]
     x, y = np.meshgrid(range(cols), range(rows))
     for rad in radius:
-        burt1D = np.array(np.ones([1,2*rad+1]))
-        W = lambda x : conv2Sep(x,burt1D)
-
-
-
+        fen = np.array(np.ones([1,2*rad+1]))
+        W = lambda x : conv2Sep(x, fen)
         Ixx = W(Ix*Ix)
         Iyy = W(Iy*Iy)
         Ixy = W(Ix*Iy)
         D   = Ixx*Iyy - Ixy**2
-
         for i in range(iteration):
             i1w = interp2(I1,x+u,y+v)
             it = I0 - i1w + u*Ix + v*Iy
@@ -95,20 +88,19 @@ def GEFolkiIter(I0, I1, iteration = 5, radius = [8, 4], rank = 4, uinit = None, 
     else:
         v = vinit
     Iy, Ix = gradient(I0)
-
     cols, rows = I0.shape[1], I0.shape[0]
     x, y = np.meshgrid(range(cols), range(rows))
     for rad in radius:
-        burt1D = np.array(np.ones([1,2*rad+1]))
-        W = lambda x : conv2Sep(x,burt1D)
+        fen = np.array(np.ones([1,2*rad+1]))
+        W = lambda x : conv2Sep(x, fen)
         Ixx = W(Ix*Ix)
         Iyy = W(Iy*Iy)
         Ixy = W(Ix*Iy)
         D   = Ixx*Iyy - Ixy**2
         for i in range(iteration):
             I1w = interp2(I1,x+u,y+v)
-            crit1 = W(np.abs(I0-I1w))
-            crit2 = W(np.abs(1-I0-I1w))
+            crit1 = W(np.abs(I0-I1w))   # < a checker si on convolue
+            crit2 = W(np.abs(1-I0-I1w)) # < par fenetre ou rank
             R1w = interp2(R1s,x+u,y+v)
             R1w_1 = interp2(R1i,x+u,y+v)
             R1w[crit1 > crit2] = R1w_1[crit1 > crit2]
@@ -121,5 +113,9 @@ def GEFolkiIter(I0, I1, iteration = 5, radius = [8, 4], rank = 4, uinit = None, 
             u[unvalid] = 0
             v[unvalid] = 0
     return u,v
+
+
+
+
 
 
