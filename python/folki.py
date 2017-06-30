@@ -51,7 +51,7 @@ def EFolkiIter(I0, I1, iteration = 5, radius = [8, 4], rank = 4, uinit = None, v
         v = np.zeros(I1.shape)
     else:
         v = vinit
-    Iy, Ix = gradient(I0)
+    Iy, Ix = gradient(R0)
     cols, rows = I0.shape[1], I0.shape[0]
     x, y = np.meshgrid(range(cols), range(rows))
     for rad in radius:
@@ -87,7 +87,7 @@ def GEFolkiIter(I0, I1, iteration = 5, radius = [8, 4], rank = 4, uinit = None, 
         v = np.zeros(I1.shape)
     else:
         v = vinit
-    Iy, Ix = gradient(I0)
+    Iy, Ix = gradient(R0)
     cols, rows = I0.shape[1], I0.shape[0]
     x, y = np.meshgrid(range(cols), range(rows))
     for rad in radius:
