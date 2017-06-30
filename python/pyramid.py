@@ -31,7 +31,7 @@ class BurtOF:
     def pyrUp(self, I):
         a = 0.4
         burt1D = np.array([[1./4.-a/2.,1./4.,a,1./4.,1./4.-a/2.]])
-        M = conv2(I,burt1D)
+        M = conv2Sep(I,burt1D)
         return M[::2,::2]
 
     def pyrDown(self, I, shape):

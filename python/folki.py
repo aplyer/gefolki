@@ -7,7 +7,7 @@ from primitive import *
 
 
 def FolkiIter(I0, I1, iteration = 5, radius = 8, talon = 1.e-8, uinit = None, vinit = None):
-    W = lambda x : conv2(x, np.ones([2*radius+1,1]) / 2*radius + 1)
+    W = lambda x : conv2Sep(x, np.ones([2*radius+1,1]) / 2*radius + 1)
     I0 = I0.astype(np.float32)
     I1 = I1.astype(np.float32)
     if uinit is None:
@@ -59,7 +59,7 @@ def EFolkiIter(I0, I1, iteration = 5, radius = [8, 4], rank = 4, uinit = None, v
     x, y = np.meshgrid(range(cols), range(rows))
     for rad in radius:
         burt1D = np.array(np.ones([1,2*rad+1]))
-        W = lambda x : conv2(x,burt1D)
+        W = lambda x : conv2Sep(x,burt1D)
 
 
 
@@ -100,15 +100,15 @@ def GEFolkiIter(I0, I1, iteration = 5, radius = [8, 4], rank = 4, uinit = None, 
     x, y = np.meshgrid(range(cols), range(rows))
     for rad in radius:
         burt1D = np.array(np.ones([1,2*rad+1]))
-        W = lambda x : conv2(x,burt1D)
+        W = lambda x : conv2Sep(x,burt1D)
         Ixx = W(Ix*Ix)
         Iyy = W(Iy*Iy)
         Ixy = W(Ix*Iy)
         D   = Ixx*Iyy - Ixy**2
         for i in range(iteration):
             I1w = interp2(I1,x+u,y+v)
-            crit1 = conv2(np.abs(I0-I1w), np.ones([2*rank+1,1]))
-            crit2 = conv2(np.abs(1-I0-I1w), np.ones([2*rank+1,1]))
+            crit1 = W(np.abs(I0-I1w))
+            crit2 = W(np.abs(1-I0-I1w))
             R1w = interp2(R1s,x+u,y+v)
             R1w_1 = interp2(R1i,x+u,y+v)
             R1w[crit1 > crit2] = R1w_1[crit1 > crit2]
