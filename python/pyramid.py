@@ -22,7 +22,7 @@ class BurtOF:
     	    
         for i in range(self.levels, 0, -1):	    
             Py0.append(self.pyrUp(Py0[-1]))
-	        Py1.append(self.pyrUp(Py1[-1]))
+	    Py1.append(self.pyrUp(Py1[-1]))
   	    
         u = np.zeros(Py0[-1].shape)
         v = np.zeros(Py0[-1].shape)
