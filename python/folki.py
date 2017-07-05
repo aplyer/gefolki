@@ -73,8 +73,8 @@ def EFolkiIter(I0, I1, iteration = 5, radius = [8, 4], rank = 4, uinit = None, v
     
     
     for rad in radius:
-	    burt1D = np.array(np.ones([1,2*rad+1]))/(2*rad + 1)
-        W = lambda x : conv2SepMatlabbis(x,burt1D)
+	burt1D = np.array(np.ones([1,2*rad+1]))/(2*rad + 1)
+	W = lambda x : conv2SepMatlabbis(x,burt1D)
         	
         Ixx = W(Ix*Ix)
         Iyy = W(Iy*Iy)
@@ -104,18 +104,18 @@ def GEFolkiIter(I0, I1, iteration = 5, radius = [8, 4], rank = 4, uinit = None, 
         R1s = rank_filter_sup(I1, rank)
 
         H0=I0
-	    H1=I1
-
-	    clahe = cv2.createCLAHE(clipLimit=5.0, tileGridSize=(8,8))
-	    toto = I0*255
-	    toto = toto.astype(np.uint8)
-	    H0 = clahe.apply(toto)	
-	    H0 = H0.astype(np.float32)/255
-
-	    toto = I1*255
-	    toto = toto.astype(np.uint8)
-	    H1 = clahe.apply(toto)
-	    H1 = H1.astype(np.float32)/255
+	H1=I1
+	
+	clahe = cv2.createCLAHE(clipLimit=5.0, tileGridSize=(8,8))
+	toto = I0*255
+	toto = toto.astype(np.uint8)
+	H0 = clahe.apply(toto)	
+	H0 = H0.astype(np.float32)/255
+	
+	toto = I1*255
+	toto = toto.astype(np.uint8)
+	H1 = clahe.apply(toto)
+	H1 = H1.astype(np.float32)/255
 
  
     if uinit is None:
@@ -132,9 +132,10 @@ def GEFolkiIter(I0, I1, iteration = 5, radius = [8, 4], rank = 4, uinit = None, 
   
     cols, rows = I0.shape[1], I0.shape[0]
     x, y = np.meshgrid(range(cols), range(rows))
+	
     for rad in radius:
-	    burt1D = np.array(np.ones([1,2*rad+1]))/(2*rad + 1) 
-	    W = lambda x : conv2SepMatlabbis(x,burt1D)
+	burt1D = np.array(np.ones([1,2*rad+1]))/(2*rad + 1) 
+	W = lambda x : conv2SepMatlabbis(x,burt1D)
 
         Ixx = W(Ix*Ix)
         Iyy = W(Iy*Iy)
