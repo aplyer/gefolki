@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import numpy as np
 
 from scipy.io import loadmat
@@ -12,7 +14,7 @@ from PIL import Image
 
 
 def demo():
-    print "Debut recalage Lidar/Radar\n"
+    print("Debut recalage Lidar/Radar\n")
     radar = imread('../datasets/radar_bandep.png')
     Ilidari = imread('../datasets/lidar_georef.png')
 
@@ -47,9 +49,9 @@ def demo():
     pl.imshow(D)
     pl.title('Imfuse of RADAR and LIDAR after coregistration')
 
-    print "Fin recalage Lidar/Radar \n\n"
+    print("Fin recalage Lidar/Radar \n\n")
 
-    print "Debut recalage optique/Radar\n"
+    print("Debut recalage optique/Radar\n")
     radar = imread('../datasets/radar_bandep.png')
     Ioptique = imread('../datasets/optiquehr_georef.png')
 
@@ -85,7 +87,7 @@ def demo():
     pl.figure()
     pl.imshow(D)
     pl.title('Imfuse of RADAR and OPTIC after coregistration')
-    print "Fin recalage optique/Radar \n\n"
+    print("Fin recalage optique/Radar \n\n")
 
 
 if __name__ == '__main__':

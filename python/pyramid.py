@@ -29,7 +29,6 @@ class BurtOF:
         for i in range(self.levels, -1, -1):
             kparams['uinit'] = u
             kparams['vinit'] = v
-            print "i=", i
             u, v = self.flow(Py0[i], Py1[i], **kparams)
             if i > 0:
                 col, row = Py0[i-1].shape[1], Py0[i-1].shape[0]
