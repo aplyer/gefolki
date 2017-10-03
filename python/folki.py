@@ -1,25 +1,29 @@
 import numpy as np
-import cv2
-
 from rank import rank_inf as rank_filter_inf
 from rank import rank_sup as rank_filter_sup
 from PIL import Image
 from primitive import *
+import scipy
 
 
-# V2 : nouvelle version
-def conv2SepMatlabbis(I,fen):
-  
-    rad = fen.size/2;
-    
-    I = cv2.copyMakeBorder(I,rad,rad,rad,rad,cv2.BORDER_CONSTANT,value=0)
-    res = conv2bis(conv2bis(I,fen.T),fen); 
+def conv2SepMatlabbis(I, fen):
+
+    rad = (fen.size-1)/2
+    ligne = np.zeros((rad, I.shape[1]))
+    I = np.append(ligne, I, axis=0)
+    I = np.append(I, ligne, axis=0)
+
+    colonne = np.zeros((I.shape[0], rad))
+    I = np.append(colonne, I, axis=1)
+    I = np.append(I, colonne, axis=1)
+
+    res = conv2bis(conv2bis(I, fen.T), fen)
     return res
 
-# V2 : nouvelle version
-def FolkiIter(I0, I1, iteration = 5, radius = 8, talon = 1.e-8, uinit = None, vinit = None):
-  
-    W = lambda x : conv2Sep(x, np.ones([2*radius+1,1]))/(2*radius + 1)
+
+def FolkiIter(I0, I1, iteration=5, radius=8, talon=1.e-8, uinit=None, vinit=None):
+
+    W = lambda x: conv2Sep(x, np.ones([2*radius+1, 1]))/(2*radius + 1)
     I0 = I0.astype(np.float32)
     I1 = I1.astype(np.float32)
     if uinit is None:
@@ -34,29 +38,27 @@ def FolkiIter(I0, I1, iteration = 5, radius = 8, talon = 1.e-8, uinit = None, vi
     Ixx = W(Ix*Ix) + talon
     Iyy = W(Iy*Iy) + talon
     Ixy = W(Ix*Iy)
-    D   = Ixx*Iyy - Ixy**2
+    D = Ixx*Iyy - Ixy**2
     cols, rows = I0.shape[1], I0.shape[0]
     x, y = np.meshgrid(range(cols), range(rows))
     for i in range(iteration):
-        i1w = interp2(I1,x+u,y+v)
+        i1w = interp2(I1, x+u, y+v)
         it = I0 - i1w + u*Ix + v*Iy
         Ixt = W(Ix * it)
         Iyt = W(Iy * it)
-        u = (Iyy * Ixt - Ixy * Iyt)/ D
-        v = (Ixx * Iyt - Ixy * Ixt) /D
-        unvalid = np.isnan(u)|np.isinf(u)|np.isnan(v)|np.isinf(v)
+        u = (Iyy * Ixt - Ixy * Iyt)/D
+        v = (Ixx * Iyt - Ixy * Ixt)/D
+        unvalid = np.isnan(u) | np.isinf(u) | np.isnan(v) | np.isinf(v)
         u[unvalid] = 0
         v[unvalid] = 0
-    return u,v
+    return u, v
 
 
-
-def EFolkiIter(I0, I1, iteration = 5, radius = [8, 4], rank = 4, uinit = None, vinit = None):
-   
+def EFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None,vinit=None):
     if rank > 0:
         I0 = rank_filter_sup(I0, rank)
         I1 = rank_filter_sup(I1, rank)
- 
+
     if uinit is None:
         u = np.zeros(I0.shape)
     else:
@@ -66,58 +68,83 @@ def EFolkiIter(I0, I1, iteration = 5, radius = [8, 4], rank = 4, uinit = None, v
     else:
         v = vinit
 
-    Iy, Ix = np.gradient(I0)	
- 
+    Iy, Ix = np.gradient(I0)
+
     cols, rows = I0.shape[1], I0.shape[0]
     x, y = np.meshgrid(range(cols), range(rows))
-    
-    
+
     for rad in radius:
-	burt1D = np.array(np.ones([1,2*rad+1]))/(2*rad + 1)
-	W = lambda x : conv2SepMatlabbis(x,burt1D)
-        	
+
+        burt1D = np.array(np.ones([1, 2*rad+1]))/(2*rad + 1)
+        W = lambda x: conv2SepMatlabbis(x, burt1D)
+
         Ixx = W(Ix*Ix)
         Iyy = W(Iy*Iy)
-        Ixy = W(Ix*Iy)  
-        D   = Ixx*Iyy - Ixy**2
-      
- 
+        Ixy = W(Ix*Iy)
+        D = Ixx*Iyy - Ixy**2
+
         for i in range(iteration):
-            i1w = interp2(I1,x+u,y+v)
+            i1w = interp2(I1, x+u, y+v)
 
             it = I0 - i1w + u*Ix + v*Iy
             Ixt = W(Ix * it)
             Iyt = W(Iy * it)
-            u = (Iyy * Ixt - Ixy * Iyt)/ D
-            v = (Ixx * Iyt - Ixy * Ixt) /D
-            unvalid = np.isnan(u)|np.isinf(u)|np.isnan(v)|np.isinf(v)
+            u = (Iyy * Ixt - Ixy * Iyt)/D
+            v = (Ixx * Iyt - Ixy * Ixt)/D
+            unvalid = np.isnan(u) | np.isinf(u) | np.isnan(v) | np.isinf(v)
             u[unvalid] = 0
             v[unvalid] = 0
-    return u,v
+    return u, v
 
-# V2
-def GEFolkiIter(I0, I1, iteration = 5, radius = [8, 4], rank = 4, uinit = None, vinit = None):
+
+def GEFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=None):
 
     if rank > 0:
         R0 = rank_filter_sup(I0, rank)
         R1i = rank_filter_inf(I1, rank)
         R1s = rank_filter_sup(I1, rank)
 
-        H0=I0
-	H1=I1
-	
-	clahe = cv2.createCLAHE(clipLimit=5.0, tileGridSize=(8,8))
-	toto = I0*255
-	toto = toto.astype(np.uint8)
-	H0 = clahe.apply(toto)	
-	H0 = H0.astype(np.float32)/255
-	
-	toto = I1*255
-	toto = toto.astype(np.uint8)
-	H1 = clahe.apply(toto)
-	H1 = H1.astype(np.float32)/255
+    H0 = I0
+    H1 = I1
 
- 
+    from skimage import data, exposure, img_as_float
+
+    x = I0.shape[1]
+    res = x % 8
+    if res > 0:
+        add = 8 - x % 8
+        toto = scipy.misc.imresize(I0, (x+add, x+add), 'bilinear')
+    else:
+        toto = I0
+
+    toto = toto*255
+    toto = toto.astype(np.uint8)
+    H0 = exposure.equalize_adapthist(toto, 8, clip_limit=1, nbins=256)
+
+    if res > 0:
+        H0 = scipy.misc.imresize(H0, (x, x), 'bilinear')
+
+    H0 = H0.astype(np.float32)
+    H0 = H0/H0.max()
+
+    x = I1.shape[1]
+    res = x % 8
+    if res > 0:
+        add = 8 - x % 8
+        toto = scipy.misc.imresize(I1, (x+add, x+add), 'bilinear')
+    else:
+        toto = I1
+
+    toto = toto*255
+    toto = toto.astype(np.uint8)
+    H1 = exposure.equalize_adapthist(toto, 8, clip_limit=1, nbins=256)
+
+    if res > 0:
+        H1 = scipy.misc.imresize(H1, (x, x), 'bilinear')
+
+    H1 = H1.astype(np.float32)
+    H1 = H1/H1.max()
+
     if uinit is None:
         u = np.zeros(I0.shape)
     else:
@@ -129,40 +156,43 @@ def GEFolkiIter(I0, I1, iteration = 5, radius = [8, 4], rank = 4, uinit = None, 
 
     Iy, Ix = np.gradient(R0)
 
-  
     cols, rows = I0.shape[1], I0.shape[0]
     x, y = np.meshgrid(range(cols), range(rows))
-	
     for rad in radius:
-	burt1D = np.array(np.ones([1,2*rad+1]))/(2*rad + 1) 
-	W = lambda x : conv2SepMatlabbis(x,burt1D)
+
+        burt1D = np.array(np.ones([1, 2*rad+1]))/(2*rad + 1)
+        W = lambda xin: conv2SepMatlabbis(xin, burt1D)
 
         Ixx = W(Ix*Ix)
         Iyy = W(Iy*Iy)
         Ixy = W(Ix*Iy)
-        D   = Ixx*Iyy - Ixy**2
+        D = Ixx*Iyy - Ixy**2
+
         for i in range(iteration):
-            H1w = interp2(H1,x+u,y+v)
-	
-	 
-            crit1 = conv2SepMatlabbis(np.abs(H0-H1w), np.ones([2*rank+1,1]))
-            crit2 = conv2SepMatlabbis(np.abs(1-H0-H1w), np.ones([2*rank+1,1]))
 
+            dx = x + u
+            dy = y + v
+            dx[dx < 0] = 0
+            dy[dy < 0] = 0
+            dx[dx > cols-1] = cols-1
+            dy[dy > rows-1] = rows-1
 
-            R1w = interp2(R1s,x+u,y+v)
-            R1w_1 = interp2(R1i,x+u,y+v)
+            H1w = interp2(H1, dx, dy)
+
+            crit1 = conv2SepMatlabbis(np.abs(H0-H1w), np.ones([2*rank+1, 1]))
+            crit2 = conv2SepMatlabbis(np.abs(1-H0-H1w), np.ones([2*rank+1, 1]))
+
+            R1w = interp2(R1s, x+u, y+v)
+            R1w_1 = interp2(R1i, x+u, y+v)
 
             R1w[crit1 > crit2] = R1w_1[crit1 > crit2]
             it = R0 - R1w + u*Ix + v*Iy
             Ixt = W(Ix * it)
             Iyt = W(Iy * it)
-            u = (Iyy * Ixt - Ixy * Iyt)/ D
-            v = (Ixx * Iyt - Ixy * Ixt) /D
-            unvalid = np.isnan(u)|np.isinf(u)|np.isnan(v)|np.isinf(v)
+            u = (Iyy * Ixt - Ixy * Iyt)/D
+            v = (Ixx * Iyt - Ixy * Ixt)/D
+            unvalid = np.isnan(u) | np.isinf(u) | np.isnan(v) | np.isinf(v)
             u[unvalid] = 0
             v[unvalid] = 0
 
-   
-
-    return u,v
-
+    return u, v

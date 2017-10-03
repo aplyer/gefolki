@@ -1,6 +1,7 @@
 import numpy as np
 from primitive import interp2
 
+
 def wrapData(I, u, v):
     '''
         Apply the [u,v] optical flow to the data I
