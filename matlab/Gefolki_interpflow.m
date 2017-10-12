@@ -49,5 +49,5 @@ end
 data1=C(:,:,1);
 data2=C(:,:,2);
    
-I2=(interp2(x',y',Is',x'+data2',y'+data1','bilinear'))';
+I2=(interp2(x',y',Is',x'+data2',y'+data1','linear'))';
 I2(isnan(I2))=0;    
