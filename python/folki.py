@@ -8,7 +8,7 @@ import scipy
 
 def conv2SepMatlabbis(I, fen):
 
-    rad = (fen.size-1)/2
+    rad = int((fen.size-1)/2)
     ligne = np.zeros((rad, I.shape[1]))
     I = np.append(ligne, I, axis=0)
     I = np.append(I, ligne, axis=0)
