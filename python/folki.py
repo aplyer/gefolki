@@ -118,7 +118,7 @@ def GEFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=No
     add_y = 8 - y % 8 if res_y > 0 else 0
 
     if res_x > 0 or res_y > 0:
-        toto = scipy.misc.imresize(I0, (x+add_x, y+add_y), 'bilinear')
+        toto = scipy.misc.imresize(I0, (y+add_y, x+add_x), 'bilinear')
     else:
         toto = I0
 
@@ -141,7 +141,7 @@ def GEFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=No
     add_y = 8 - y % 8 if res_y > 0 else 0
 
     if res_x > 0 or res_y > 0:
-        toto = scipy.misc.imresize(I1, (x+add_x, y+add_y), 'bilinear')
+        toto = scipy.misc.imresize(I1, (y+add_y, x+add_x), 'bilinear')
     else:
         toto = I1
 
