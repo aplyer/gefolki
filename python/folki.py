@@ -107,7 +107,8 @@ def GEFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=No
     H0 = I0
     H1 = I1
 
-    from skimage import data, exposure, img_as_float
+    from skimage import exposure
+    from skimage.transform import resize
 
     x = I0.shape[1]
     res_x = x % 8
@@ -118,7 +119,7 @@ def GEFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=No
     add_y = 8 - y % 8 if res_y > 0 else 0
 
     if res_x > 0 or res_y > 0:
-        toto = scipy.misc.imresize(I0, (y+add_y, x+add_x), 'bilinear')
+        toto = resize(I0, (y+add_y, x+add_x), order=1)
     else:
         toto = I0
 
@@ -127,7 +128,7 @@ def GEFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=No
     H0 = exposure.equalize_adapthist(toto, 8, clip_limit=1, nbins=256)
 
     if res_x > 0 or res_y > 0:
-        H0 = scipy.misc.imresize(H0, (y, x), 'bilinear')
+        H0 = resize(H0, (y, x), order=1)
 
     H0 = H0.astype(np.float32)
     H0 = H0/H0.max()
@@ -141,7 +142,7 @@ def GEFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=No
     add_y = 8 - y % 8 if res_y > 0 else 0
 
     if res_x > 0 or res_y > 0:
-        toto = scipy.misc.imresize(I1, (y+add_y, x+add_x), 'bilinear')
+        toto = resize(I1, (y+add_y, x+add_x), order=1)
     else:
         toto = I1
 
@@ -150,7 +151,7 @@ def GEFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=No
     H1 = exposure.equalize_adapthist(toto, 8, clip_limit=1, nbins=256)
 
     if res_x > 0 or res_y > 0:
-        H1 = scipy.misc.imresize(H1, (y, x), 'bilinear')
+        H1 = resize(H1, (y, x), order=1)
 
     H1 = H1.astype(np.float32)
     H1 = H1/H1.max()
