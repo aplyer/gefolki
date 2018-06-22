@@ -22,7 +22,7 @@ def conv2SepMatlabbis(I, fen):
 
 
 def FolkiIter(I0, I1, iteration=5, radius=8, talon=1.e-8, uinit=None, vinit=None):
-
+   
     W = lambda x: conv2Sep(x, np.ones([2*radius+1, 1]))/(2*radius + 1)
     I0 = I0.astype(np.float32)
     I1 = I1.astype(np.float32)
@@ -55,6 +55,7 @@ def FolkiIter(I0, I1, iteration=5, radius=8, talon=1.e-8, uinit=None, vinit=None
 
 
 def EFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None,vinit=None):
+    talon=1.e-8
     if rank > 0:
         I0 = rank_filter_sup(I0, rank)
         I1 = rank_filter_sup(I1, rank)
@@ -78,8 +79,8 @@ def EFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None,vinit=None
         burt1D = np.array(np.ones([1, 2*rad+1]))/(2*rad + 1)
         W = lambda x: conv2SepMatlabbis(x, burt1D)
 
-        Ixx = W(Ix*Ix)
-        Iyy = W(Iy*Iy)
+        Ixx = W(Ix*Ix) + talon
+        Iyy = W(Iy*Iy) + talon
         Ixy = W(Ix*Iy)
         D = Ixx*Iyy - Ixy**2
 
