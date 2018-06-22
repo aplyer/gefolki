@@ -3,6 +3,7 @@ from rank import rank_inf as rank_filter_inf
 from rank import rank_sup as rank_filter_sup
 from PIL import Image
 from primitive import *
+from adapthist import *
 import scipy
 
 
@@ -108,7 +109,6 @@ def GEFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=No
     H0 = I0
     H1 = I1
 
-    from skimage import exposure
     from skimage.transform import resize
 
     x = I0.shape[1]
@@ -126,7 +126,7 @@ def GEFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=No
 
     toto = toto*255
     toto = toto.astype(np.uint8)
-    H0 = exposure.equalize_adapthist(toto, 8, clip_limit=1, nbins=256)
+    H0 = equalize_adapthist(toto, 8, clip_limit=1, nbins=256)
 
     if res_x > 0 or res_y > 0:
         H0 = resize(H0, (y, x), order=1)
@@ -149,7 +149,7 @@ def GEFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=No
 
     toto = toto*255
     toto = toto.astype(np.uint8)
-    H1 = exposure.equalize_adapthist(toto, 8, clip_limit=1, nbins=256)
+    H1 = equalize_adapthist(toto, 8, clip_limit=1, nbins=256)
 
     if res_x > 0 or res_y > 0:
         H1 = resize(H1, (y, x), order=1)
