@@ -146,7 +146,7 @@ def _clahe(image, ntiles_x, ntiles_y, clip_limit, nbins=128):
     #aLUT //= bin_size
     aLUT = np.round(aLUT)
     aLUT = np.abs(aLUT)
-    aLUT = np.int64(aLUT)
+    aLUT = np.intp(aLUT)
     img_blocks = view_as_blocks(image, (y_size, x_size))
 
     # Calculate greylevel mappings for each contextual region
