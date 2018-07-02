@@ -29,8 +29,15 @@ Lantmäteriet, Division Geodata
 Lantmäterigatan 2, 801 82 Gävle
 www.lantmateriet.se
 
+• The optical images QB and WV are images over San Francisco.
+They have been provided trough the 2012 IEEE GRSS Data Fusion Contest, to whom we
+are deeply grateful.
+They include very high spatial resolution from QuickBird and WorldView Sensors.
+They have been processed by extracting a common area, by selecting manually Control Points and by rewarping 
+the QB image over the WV, according to an affine transformation.  
+
 ---------------------------------------------------------------------------------------------------------
-Images provided in DataSets have all been post-processed by Guillaume Brigot and Elise Koeniguer in Onera.
+Images provided in Sweden DataSets have all been post-processed by Guillaume Brigot and Elise Koeniguer in Onera.
 Guillaume Brigot, is a PhD student jointly supervised by Elise Koeniguer in Onera and Marc Simard in JPL. 
 His PhD is supported jointly by TOTAL and Onera. 
 
@@ -41,6 +48,8 @@ radar image, by using only geoding information of initial images and SAR traject
 Red:HH-VV, Green:HV+VH, Blue:HH+VV.
 The image has been filtered by using the NLSAR toolbox developped by Charles Deledalle and available here:
 https://www.math.u-bordeaux.fr/~cdeledal/nlsar.php
+
+
 
 ---------------------------------------------------------------------------------------------------------
 
