@@ -1,7 +1,6 @@
 ---------------------------------------------------------------------------------------------------------
 All data provided in this Datasets to test GeFolki come from various institutions: 
 
-
 • LIDAR data have been provided by Johan Fransson
 from SLU (Swedish University of Agricultural Sciences),
 and by Lars Ulander from FOI (Swedish Defence Research
@@ -12,7 +11,6 @@ processed by SLU.
 
 The data acquisition has been funded by ESA through the BIOSAR 3 campaign
 https://earth.esa.int/web/guest/campaigns
-
 
 
 • all SAR images have been provided from the BIOSAR 3 campaign funding by ESA,
@@ -49,12 +47,7 @@ Red:HH-VV, Green:HV+VH, Blue:HH+VV.
 The image has been filtered by using the NLSAR toolbox developped by Charles Deledalle and available here:
 https://www.math.u-bordeaux.fr/~cdeledal/nlsar.php
 
-
-
 ---------------------------------------------------------------------------------------------------------
-
 The authors of GeFolki are thankful to Malcolm Davidson and Michael Foumelis from ESA-ESRIN for their 
 very informative recommendations.
-
-
 
