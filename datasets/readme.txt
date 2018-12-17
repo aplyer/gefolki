@@ -48,6 +48,14 @@ The image has been filtered by using the NLSAR toolbox developped by Charles Del
 https://www.math.u-bordeaux.fr/~cdeledal/nlsar.php
 
 ---------------------------------------------------------------------------------------------------------
+
+S1_Jacksonville_GEE.tif is a temporal average of GRD Sentinel 1 images
+JacksonvilleNavalAirStation_sandiaKu.png is a 'Courtesy of Sandia National Laboratories, Radar ISR'
+
+Both images are used to demonstrate an initialisation of GeFolki
+---------------------------------------------------------------------------------------------------------
+
+
 The authors of GeFolki are thankful to Malcolm Davidson and Michael Foumelis from ESA-ESRIN for their 
 very informative recommendations.
 
