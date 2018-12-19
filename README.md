@@ -42,5 +42,5 @@ To use this functionality, test
 
 python3 mining.py --input_master '../datasets/S1_Jacksonville_GEE.tif' --input_slave '../datasets/JacksonvilleNavalAirStation_sandiaKu.png'
 
-Or have a look at the notebook python 
+Or have a look at the notebook python Mining.ipynb
 
