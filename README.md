@@ -36,6 +36,11 @@ After decompression, this directory contains:
 In python you find a part of folki optical flow familly (folki, efolki, gefolki).
 
 
+## Image Mining
+In python, you can find also a "mining" function, that enables to find a slave pattern within a bigger Master Image (Sentinel 1)
+To use this functionality, test
 
+python3 mining.py --input_master '../datasets/S1_Jacksonville_GEE.tif' --input_slave '../datasets/JacksonvilleNavalAirStation_sandiaKu.png'
 
+Or have a look at the notebook python 
 
