@@ -184,12 +184,7 @@ ue = imresize(u,s)./0.5;
 
 
 function res = convSep(I,fen)
-[row, ~] = size(I); 
-rad = (size(fen,2)-1)/2;
-I = [zeros(row,rad) I zeros(row,rad)];
-col = size(I,2);
-I = [zeros(rad,col); I; zeros(rad,col)];
-res = (conv2(conv2(I,fen','valid'),fen,'valid')); 
+res = conv2(conv2(I,fen','same'),fen,'same');
 
 
 function Iw = interp2gpu(I,x,y)

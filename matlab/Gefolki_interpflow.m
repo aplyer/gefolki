@@ -44,10 +44,12 @@ if nargin<3
     Warning('Not enough Input in interpflow')
 end
 
-[dimx,dimy]=size(Is);
-[y,x]=meshgrid((1:dimy),(1:dimx));
-data1=C(:,:,1);
-data2=C(:,:,2);
-   
-I2=(interp2(x',y',Is',x'+data2',y'+data1','bilinear'))';
-I2(isnan(I2))=0;    
+[row, col] = size(Is);
+[x, y] = meshgrid(1:col, 1:row);
+u = C(:,:,1);
+v = C(:,:,2);
+dx = x + u;
+dy = y + v;
+
+I2 = interp2(Is, dx, dy);
+I2(isnan(I2)) = 0;
