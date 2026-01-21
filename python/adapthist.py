@@ -153,7 +153,8 @@ def _clahe(image, ntiles_x, ntiles_y, clip_limit, nbins=128):
     for y in range(ntiles_y):
         for x in range(ntiles_x):
             sub_img = img_blocks[y, x]
-            hist = aLUT[sub_img.ravel()]
+            #hist = aLUT[sub_img.ravel()]
+            hist = aLUT[sub_img.ravel().astype(np.intp)]
             hist = np.bincount(hist)
             hist = np.append(hist, np.zeros(nbins - hist.size, dtype=int))
             hist = clip_histogram(hist, clip_limit)
@@ -324,7 +325,8 @@ def interpolate(image, xslice, yslice,
 
     view = image[int(yslice[0]):int(yslice[-1] + 1),
                  int(xslice[0]):int(xslice[-1] + 1)]
-    im_slice = aLUT[view]
+    #im_slice = aLUT[view]
+    im_slice = aLUT[view.astype(np.intp)]              
     new = ((y_inv_coef * (x_inv_coef * mapLU[im_slice]
                           + x_coef * mapRU[im_slice])
             + y_coef * (x_inv_coef * mapLB[im_slice]

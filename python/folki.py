@@ -213,8 +213,12 @@ def GEFolkiIter(I0, I1, iteration=5, radius=[8, 4], rank=4, uinit=None, vinit=No
             it = R0 - R1w + u*Ix + v*Iy
             Ixt = W(Ix * it)
             Iyt = W(Iy * it)
-            u = (Iyy * Ixt - Ixy * Iyt)/D
-            v = (Ixx * Iyt - Ixy * Ixt)/D
+            #u = (Iyy * Ixt - Ixy * Iyt)/D
+            #v = (Ixx * Iyt - Ixy * Ixt)/D
+            eps = 1e-5
+            D_safe = np.where(np.abs(D) < eps, eps, D)
+            u = (Iyy * Ixt - Ixy * Iyt) / D_safe
+            v = (Ixx * Iyt - Ixy * Ixt) / D_safe
             unvalid = np.isnan(u) | np.isinf(u) | np.isnan(v) | np.isinf(v)
             u[unvalid] = 0
             v[unvalid] = 0
